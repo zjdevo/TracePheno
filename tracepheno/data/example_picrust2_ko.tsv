@@ -1,0 +1,12 @@
+function	description	control_1	control_2	case_1	case_2
+K04759	FeoB ferrous iron transporter	12	10	1	0
+K09815	ZnuA high-affinity zinc transporter	0	1	10	8
+K09816	ZnuB high-affinity zinc transporter	0	1	11	7
+K09817	ZnuC high-affinity zinc transporter	0	1	12	9
+K02006	CbiO cobalt transport ATP-binding protein	4	5	1	1
+K02007	CbiM cobalt transport permease	3	4	0	0
+K02008	CbiQ cobalt transport permease	3	4	0	0
+K02009	CbiN cobalt transport permease	2	4	0	0
+K01008	SelD selenophosphate synthetase	5	4	0	1
+K01042	SelA selenocysteine synthase	5	4	0	1
+K03833	SelB selenocysteine-specific elongation factor	5	4	0	1

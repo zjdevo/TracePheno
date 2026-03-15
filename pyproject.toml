@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tracepheno"
+version = "0.1.0"
+description = "Function-first phenotype analysis for trace-element metabolism in microbial communities."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "OpenAI Codex" }
+]
+dependencies = [
+  "jinja2>=3.1",
+  "matplotlib>=3.8",
+  "numpy>=1.26",
+  "pandas>=2.2",
+  "PyYAML>=6.0",
+  "scipy>=1.12",
+  "seaborn>=0.13"
+]
+
+[project.scripts]
+tracepheno = "tracepheno.cli:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tracepheno*"]
+
+[tool.setuptools.package-data]
+tracepheno = ["data/*.yaml", "data/*.tsv"]

@@ -1,0 +1,11 @@
+{
+  "title": "Global landscape of antibiotic resistance genes in the human gut microbiome metagenome-assembled genomes",
+  "journal": "BMC Microbiology",
+  "doi": "10.1186/s12866-025-04586-0",
+  "article_url": "https://link.springer.com/article/10.1186/s12866-025-04586-0",
+  "online_date": "2025-12-09",
+  "issue_date": "2026-12",
+  "data_root_url": "https://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/human-gut/v2.0.2/",
+  "metadata_url": "https://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/human-gut/v2.0.2/genomes-all_metadata.tsv",
+  "readme_url": "https://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/human-gut/v2.0.2/README_v2.0.2.txt"
+}

@@ -1,0 +1,349 @@
+version: 0.2
+phenotypes:
+  - id: iron_acquisition
+    name: Iron acquisition and siderophore cycle
+    element: iron
+    summary: Captures ferric-siderophore uptake, ferrous transport, siderophore biosynthesis, and heme-linked iron scavenging.
+    threshold_hint: 0.5
+    core_min_hits: 1
+    evidence_urls:
+      - https://pmc.ncbi.nlm.nih.gov/articles/PMC5789311/
+      - https://pmc.ncbi.nlm.nih.gov/articles/PMC4448232/
+    markers:
+      - id: enterobactin_like_biosynthesis
+        tier: core
+        logic: any
+        min_hits: 3
+        weight: 1.4
+        notes: High-confidence catecholate siderophore biosynthesis signature.
+        genes: ["entA|K03885", "entB|K04038", "entC|K03890", "entD|K01915", "entE|K01916", "entF|K03887"]
+      - id: alternative_siderophore_biosynthesis
+        tier: accessory
+        logic: any
+        min_hits: 3
+        weight: 1.0
+        notes: Additional siderophore systems kept as a lower-confidence accessory block.
+        genes: ["iucA", "iucB", "iucC", "iucD", "asbA", "asbB", "asbC", "asbD", "pvdA", "pvdD"]
+      - id: ferric_siderophore_transport
+        tier: core
+        logic: any
+        min_hits: 2
+        weight: 1.2
+        notes: Ferric-siderophore outer-membrane receptors and inner-membrane ABC uptake components.
+        genes: ["fepA", "fepB", "fepC", "fepD", "fepG", "fhuA", "fhuB", "fhuC", "fhuD", "fecA", "iroN", "fiu"]
+      - id: tonb_energy_transduction
+        tier: ambiguous
+        logic: any
+        min_hits: 2
+        weight: 0.5
+        notes: TonB-ExbBD energizes many ferric uptake systems but is not specific on its own.
+        genes: ["tonB", "exbB", "exbD"]
+      - id: ferrous_transport_core
+        tier: core
+        logic: any
+        min_hits: 1
+        weight: 1.2
+        notes: FeoB is the core ferrous iron transporter; FeoA and FeoC are accessory.
+        genes: ["feoB|K04759"]
+      - id: ferrous_transport_accessory
+        tier: accessory
+        logic: any
+        min_hits: 1
+        weight: 0.4
+        genes: ["feoA", "feoC"]
+      - id: heme_iron_scavenging
+        tier: accessory
+        logic: any
+        min_hits: 2
+        weight: 1.0
+        notes: Includes Gram-negative and Gram-positive heme uptake modules.
+        genes: ["chuA", "chuS", "chuT", "chuU", "chuV", "hmuR", "hmuT", "hmuU", "hugA", "hemR", "hasA", "hasR", "isdA", "isdB", "isdC", "isdD", "isdE", "isdF", "isdG", "isdH"]
+
+  - id: iron_storage_homeostasis
+    name: Iron storage and detoxification
+    element: iron
+    summary: Ferritin-like iron storage and detoxification rather than broad global regulation.
+    threshold_hint: 0.55
+    core_min_hits: 1
+    evidence_urls:
+      - https://pmc.ncbi.nlm.nih.gov/articles/PMC4448232/
+    markers:
+      - id: ferritin_like_storage
+        tier: core
+        logic: any
+        min_hits: 1
+        weight: 1.8
+        notes: Removed broad regulators such as Fur to reduce false positives.
+        genes: ["bfr", "bfd", "ftnA", "ftnB", "dps"]
+
+  - id: zinc_acquisition
+    name: Zinc acquisition and zinc starvation response
+    element: zinc
+    summary: High-affinity zinc uptake centered on ZnuABC and AdcABC, with ZinT and AdcAII-like accessory capture proteins.
+    threshold_hint: 0.55
+    core_min_hits: 1
+    evidence_urls:
+      - https://pmc.ncbi.nlm.nih.gov/articles/PMC4448232/
+      - https://pmc.ncbi.nlm.nih.gov/articles/PMC5420566/
+    markers:
+      - id: high_affinity_zinc_uptake
+        tier: core
+        logic: all
+        min_hits: 3
+        weight: 1.5
+        notes: Uses ortholog grouping to bridge Gram-negative Znu and Gram-positive Adc systems.
+        genes: ["znuA|adcA|K09815", "znuB|adcB|K09816", "znuC|adcC|K09817"]
+      - id: accessory_zinc_capture
+        tier: accessory
+        logic: any
+        min_hits: 1
+        weight: 0.9
+        genes: ["zinT", "adcAII|lmb"]
+      - id: low_specificity_zinc_uptake
+        tier: ambiguous
+        logic: any
+        min_hits: 1
+        weight: 0.3
+        notes: ZupT is promiscuous and therefore intentionally down-weighted.
+        genes: ["zupT"]
+
+  - id: manganese_acquisition
+    name: Manganese acquisition and oxidative stress support
+    element: manganese
+    summary: Major Mn import routes centered on MntH, MntABC-like systems, and SitABCD-like systems.
+    threshold_hint: 0.5
+    core_min_hits: 1
+    evidence_urls:
+      - https://pmc.ncbi.nlm.nih.gov/articles/PMC4448232/
+    markers:
+      - id: mnth_import
+        tier: core
+        logic: any
+        min_hits: 1
+        weight: 1.3
+        genes: ["mntH|K03322"]
+      - id: mntabc_family
+        tier: core
+        logic: any
+        min_hits: 2
+        weight: 1.2
+        genes: ["mntA", "mntB", "mntC", "mtsA|sloA", "mtsB|sloB", "mtsC|sloC|ssaB"]
+      - id: sitabcd_family
+        tier: core
+        logic: any
+        min_hits: 2
+        weight: 1.2
+        genes: ["sitA", "sitB", "sitC", "sitD"]
+
+  - id: copper_homeostasis_resistance
+    name: Copper detoxification and homeostasis
+    element: copper
+    summary: Copper efflux, periplasmic detoxification, and Cus-mediated export, with broad regulators removed or down-weighted.
+    threshold_hint: 0.5
+    core_min_hits: 1
+    evidence_urls:
+      - https://pmc.ncbi.nlm.nih.gov/articles/PMC5574447/
+      - https://academic.oup.com/nar/article/46/D1/D737/4600167
+    markers:
+      - id: p_type_copper_efflux
+        tier: core
+        logic: any
+        min_hits: 1
+        weight: 1.5
+        genes: ["copA|K17686", "copB|K01533"]
+      - id: copper_chaperone_and_sensor
+        tier: accessory
+        logic: any
+        min_hits: 1
+        weight: 0.8
+        notes: Gram-positive copper homeostasis often uses CopZ, CopY, or CsoR-like proteins.
+        genes: ["copZ|K14588", "copY|K07787", "csoR|K07798"]
+      - id: cue_branch
+        tier: accessory
+        logic: any
+        min_hits: 1
+        weight: 1.0
+        genes: ["cueO|K07213", "cueP", "pcoA|K07213"]
+      - id: cus_export
+        tier: core
+        logic: any
+        min_hits: 2
+        weight: 1.3
+        genes: ["cusA|K07793", "cusB|K07794", "cusC|K07795", "cusF|K07796"]
+
+  - id: cobalamin_biosynthesis
+    name: Cobalamin biosynthesis
+    element: cobalt
+    summary: De novo corrinoid and vitamin B12 biosynthesis, combining anaerobic corrin-ring signatures, late completion genes, and aerobic pathway signatures.
+    threshold_hint: 0.6
+    core_min_hits: 2
+    evidence_urls:
+      - https://www.genome.jp/entry/M00924
+      - https://www.genome.jp/entry/M00122
+      - https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2018.02392/full
+    markers:
+      - id: anaerobic_corrin_ring_core
+        tier: core
+        logic: any
+        min_hits: 6
+        weight: 1.6
+        notes: Based on the common cbiLHFDGJTECA-style anaerobic signature.
+        genes: ["cysG", "cobA", "cbiK|cbiX", "cbiL", "cbiH", "cbiF", "cbiG", "cbiD", "cbiJ", "cbiE|cbiET|cobL-cbiET", "cbiT|cobL-cbiET", "cbiC", "cbiA"]
+      - id: late_b12_completion
+        tier: core
+        logic: any
+        min_hits: 3
+        weight: 1.3
+        notes: Cobinamide to adenosylcobalamin conversion and lower ligand assembly.
+        genes: ["cbiP|cbiB", "cobU", "cobS", "cobT", "cobC", "cobD", "cobV"]
+      - id: aerobic_signature
+        tier: accessory
+        logic: any
+        min_hits: 2
+        weight: 1.0
+        notes: Aerobic route kept as a lighter signature because many gut/community taxa are anaerobic producers.
+        genes: ["cobG", "cobF", "cobN"]
+
+  - id: cobalamin_transport_cobalt_uptake
+    name: Vitamin B12 transport, salvage, and cobalt uptake
+    element: cobalt
+    summary: Exogenous cobalamin uptake, cobalt import, and cobinamide salvage routes linked to corrinoid metabolism.
+    threshold_hint: 0.5
+    core_min_hits: 1
+    evidence_urls:
+      - https://www.genome.jp/entry/M00245
+      - https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2018.02392/full
+    markers:
+      - id: btu_transport
+        tier: core
+        logic: any
+        min_hits: 3
+        weight: 1.4
+        genes: ["btuB|K16092", "btuF|K06858", "btuC|K06073", "btuD|K06074"]
+      - id: cobalt_abc_transport
+        tier: core
+        logic: any
+        min_hits: 2
+        weight: 1.3
+        notes: CbiMNQO is the dominant cobalt uptake signature and can also transport nickel in some taxa.
+        genes: ["cbiM|K02007", "cbiN|K02009", "cbiQ|K02008", "cbiO|K02006"]
+      - id: corrinoid_salvage
+        tier: accessory
+        logic: any
+        min_hits: 1
+        weight: 0.8
+        genes: ["cbiZ|cblZ", "cblS", "cblT", "cbrT", "cbrU", "cbrV"]
+
+  - id: nickel_utilization
+    name: Nickel utilization and nickel enzyme support
+    element: nickel
+    summary: Nickel uptake plus maturation of nickel-dependent enzymes such as urease and hydrogenase.
+    threshold_hint: 0.5
+    core_min_hits: 1
+    evidence_urls:
+      - https://www.genome.jp/entry/M00245
+      - https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2018.02392/full
+    markers:
+      - id: nik_abc_transport
+        tier: core
+        logic: any
+        min_hits: 3
+        weight: 1.3
+        genes: ["nikA|cntA|K15584", "nikB|cntB|K15585", "nikC|cntC|K15586", "nikD|cntD|K15587", "nikE|K10824"]
+      - id: nicot_family_transport
+        tier: core
+        logic: any
+        min_hits: 1
+        weight: 0.9
+        genes: ["nixA", "hoxN"]
+      - id: hyp_maturation
+        tier: accessory
+        logic: any
+        min_hits: 2
+        weight: 1.1
+        genes: ["hypA", "hypB", "hypC", "hypD", "hypE", "hypF"]
+      - id: urease_structural
+        tier: accessory
+        logic: any
+        min_hits: 3
+        weight: 0.8
+        genes: ["ureA", "ureB", "ureC"]
+      - id: urease_accessory
+        tier: accessory
+        logic: any
+        min_hits: 2
+        weight: 0.8
+        genes: ["ureD", "ureE", "ureF", "ureG"]
+
+  - id: molybdenum_cofactor_biosynthesis
+    name: Molybdenum cofactor biosynthesis and molybdate uptake
+    element: molybdenum
+    summary: Molybdate uptake and MoCo biosynthesis based on the conserved M00880 core rather than only bis-MGD extension genes.
+    threshold_hint: 0.55
+    core_min_hits: 3
+    evidence_urls:
+      - https://www.genome.jp/entry/M00880
+      - https://www.genome.jp/pathway/map00970
+    markers:
+      - id: molybdate_transport
+        tier: accessory
+        logic: any
+        min_hits: 2
+        weight: 1.0
+        genes: ["modA|K02020", "modB|K02018", "modC|K02017", "modE|K03576"]
+      - id: cpmp_synthesis
+        tier: core
+        logic: any
+        min_hits: 2
+        weight: 1.2
+        genes: ["moaA|K03639", "moaC|K03637", "moaA-moaC|moaAC|K20967"]
+      - id: mpt_synthase
+        tier: core
+        logic: any
+        min_hits: 2
+        weight: 1.2
+        genes: ["moaD|K03636", "moaE|K03635", "moaD-moaE|moaE-moaD|K21142"]
+      - id: molybdenum_insertion
+        tier: core
+        logic: any
+        min_hits: 2
+        weight: 1.2
+        genes: ["mogA|K03831", "moeA|K03750"]
+      - id: bis_mgd_extension
+        tier: accessory
+        logic: any
+        min_hits: 1
+        weight: 0.5
+        notes: MobAB contributes to bis-MGD formation but is not required for all MoCo-containing enzymes.
+        genes: ["mobA", "mobB"]
+
+  - id: selenium_utilization
+    name: Selenium utilization and selenocysteine support
+    element: selenium
+    summary: Core selenocysteine machinery is weighted above accessory selenouridine and selenium respiration signatures.
+    threshold_hint: 0.5
+    core_min_hits: 1
+    evidence_urls:
+      - https://www.genome.jp/pathway/map00450
+      - https://pmc.ncbi.nlm.nih.gov/articles/PMC6205751/
+    markers:
+      - id: selenocysteine_core
+        tier: core
+        logic: any
+        min_hits: 3
+        weight: 1.6
+        notes: SelA, SelB, and SelD define the core bacterial selenocysteine-utilization module.
+        genes: ["selA|K01042", "selB", "selD|K01008"]
+      - id: selenouridine_extension
+        tier: accessory
+        logic: any
+        min_hits: 1
+        weight: 0.4
+        notes: SelU/YbbB participates in 2-selenouridine formation and is not used as a core Sec marker.
+        genes: ["selU|ybbB|K06917"]
+      - id: selenium_respiration
+        tier: accessory
+        logic: any
+        min_hits: 1
+        weight: 0.8
+        genes: ["srdA", "srdB", "srdC"]
